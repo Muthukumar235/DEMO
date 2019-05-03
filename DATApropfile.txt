@@ -1,0 +1,54 @@
+package E2EPackage;
+
+import java.io.IOException;
+
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import pageObjects.Loginpage;
+import resources.Base;
+
+public class TC01Login extends Base {
+	
+	@BeforeTest
+	public void intializingbrowser() throws IOException {
+		
+          System.out.println("BROWSER INITIALIZED");
+		
+		driver=intializebrowser();
+		driver.get(prop.getProperty("url"));
+		
+		//callexcel();
+		//excelinput();
+	}
+	@Test(dataProvider="getData")
+	public void Login01(String uname, String Pwd,String text) throws IOException {
+		
+		System.out.println("LOGIN FEATURE METHOD EXECUTION");
+		
+		Loginpage rd=new Loginpage(driver);
+		
+		rd.UserdetailsMethod().sendKeys(uname);
+		rd.PwddetailsMethod().sendKeys(Pwd);
+		rd.LoginBtndetailsMethod().click();
+		System.out.println(text);
+	}
+	@DataProvider
+	public Object[][] getData() {
+		
+		Object[][] data=new Object[1][3];
+		data[0][0] = "15672";
+	    data[0][1] = "";	
+	    data[0][2] = "DATA FETCHED USING GET DATA METHOD";	
+	    return data;
+	}
+	@AfterTest
+	public void closebrowser() {
+		
+		System.out.println("CLOSE BROWSER METHOD EXECUTION");
+		driver.close();
+		driver=null;
+	}
+}
