@@ -1,0 +1,129 @@
+package Scripts;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+//************************************************************************************************	
+public class ScriptImplementations implements scriptsInterface {
+
+	@Test
+	public void BrowserInvoke() throws IOException {
+
+		ArrayList<String> List = useDataPropertyfile();
+
+		if (List.get(0).equalsIgnoreCase("firefox")) {
+
+			System.setProperty(List.get(1), List.get(2));
+			WebDriver driver = new ChromeDriver();
+			driver.manage().window().maximize();
+			driver.manage().deleteAllCookies();
+			driver.get(List.get(3));
+			System.out.println(driver.getTitle());
+			Findlinkcount(driver);
+			AdrenalinLogin(driver);
+			AdrenalinLogout(driver);
+		}
+	}
+
+	// ***************************Script for fetching
+	// DataPropertyFile*****************************
+	public ArrayList<String> useDataPropertyfile() throws IOException {
+
+		String datapropfile = "F:\\NP\\ProgramPackage\\src\\test\\java\\Scripts\\config.properties";
+		FileInputStream fis = new FileInputStream(datapropfile);
+		Properties prop = new Properties();
+		prop.load(fis);
+		String Browserdetails = prop.getProperty("browser");
+		String Driverinfo = prop.getProperty("driverdetails");
+		String Driverpath = prop.getProperty("driverpath");
+		String BaseURL = prop.getProperty("BaseURLdetails");
+
+		ArrayList<String> testdata = new ArrayList<String>();
+
+		testdata.add(Browserdetails);
+		testdata.add(Driverinfo);
+		testdata.add(Driverpath);
+		testdata.add(BaseURL);
+		return testdata;
+	}
+
+	// ****************************Script for Finding
+	// linkcount*****************************************
+	public void Findlinkcount(WebDriver driver) throws IOException {
+
+		List<WebElement> Linkcount = driver.findElements(By.tagName("a"));
+		System.out.println("Linkcount------>" + Linkcount.size());
+
+		for (int i = 0; i <= Linkcount.size() - 1; i++) {
+			String link = Linkcount.get(i).getAttribute("href");
+			System.out.println("Link attribute details--->" + link);
+			Brokenlink(driver, link);
+		}
+	}
+
+	// ****************************Script for
+	// Brokenlinks*****************************************
+	public void Brokenlink(WebDriver driver, String link) throws IOException {
+
+		URL http = new URL(link);
+		HttpURLConnection testlinkactive = (HttpURLConnection) http.openConnection();
+		testlinkactive.setConnectTimeout(4000);
+		testlinkactive.connect();
+
+		if (testlinkactive.getResponseCode() == 200) {
+			System.out.println("Link is active---->" + link);
+		} else if (testlinkactive.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+			System.out.println("Link is Broken---->" + link);
+		}
+	}
+
+	public void AdrenalinLogin(WebDriver driver) {
+
+		driver.findElement(By.xpath("//input[@id='txtID']")).sendKeys("15672");
+		driver.findElement(By.xpath("//input[@id='txtPwd']")).sendKeys("Accent1234!");
+		driver.findElement(By.xpath("//label[@id='lblLogin']")).click();
+
+	}
+
+	public void AdrenalinLogout(WebDriver driver) {
+
+		driver.findElement(By.xpath("//input[@id='txtID']")).sendKeys("15672");
+		driver.findElement(By.xpath("//input[@id='txtPwd']")).sendKeys("Accent1234!");
+		driver.findElement(By.xpath("//label[@id='lblLogin']")).click();
+
+		WebDriverWait xwait = new WebDriverWait(driver, 30);
+		xwait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='arrow-down']")));
+
+		boolean Arrowdisplayed = driver.findElement(By.xpath("//div[@class='arrow-down']")).isDisplayed();
+		System.out.println(Arrowdisplayed);
+
+		if (Arrowdisplayed) {
+			Assert.assertTrue(Arrowdisplayed, "Arrowicon displayed successfully");
+			driver.findElement(By.xpath("//div[@class='arrow-down']/child::i")).click();
+			String Signout = driver.findElement(By.xpath("//a[@id='lnkSignOut']/child::span")).getText();
+			System.out.println("Signout--->" + Signout);
+			String UserAction = "YES";
+			if ((Signout.equalsIgnoreCase("Signout")) && (UserAction.equalsIgnoreCase("YES"))) {
+				driver.findElement(By.xpath("//a[@id='lnkSignOut']/child::span")).click();
+				driver.switchTo().alert().accept();
+			} else {
+				System.out.println("Adrenalin system not logged out as per user inputs");
+			}
+		}
+	}
+}

@@ -1,0 +1,559 @@
+package Programs;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.testng.annotations.Test;
+
+public class ProgramImplements implements InterfacePrograms {
+
+	// --------------------------------------------------------------------------------------
+
+	@Test(priority = 5)
+	public void reverseString() {
+
+		String s1 = "M U T H U", s2 = "SATHISH";
+		StringBuffer rd = new StringBuffer(s1);
+		StringBuffer reversedString = rd.reverse();
+		System.out.println("ReversedString using StringBuffer class ---->" + reversedString);
+
+		StringBuilder rd1 = new StringBuilder(s2);
+		StringBuilder reversedStringBuilder = rd1.reverse();
+		System.out.println("reversedStringBuilder using StringBuilder class ---->" + reversedStringBuilder);
+
+		ArrayList<String> data = new ArrayList<String>();
+		data.add("MUTHU");
+		data.add("RAJESH");
+		data.add("RAVI");
+		data.add("INDIA");
+
+		System.out.println(data);
+		Collections.reverse(data); // Reverses the arraylist data
+		System.out.println(data);
+		Collections.sort(data); // Sorts from ascending to desc order
+		System.out.println(data);
+	}
+
+	// --------------------------------------------------------------------------------------
+
+	@Test
+	public void reverseStringwithoutreversefunction() {
+		String s1 = "R O C K Y";
+		String ReversedString = "";
+		int StrLen = s1.length();
+
+		for (int i = StrLen - 1; i >= 0; i--) {
+			char Str = s1.charAt(i);
+			ReversedString = ReversedString + Str;
+		}
+		System.out.println("Reversed String without String function is --->" + ReversedString);
+	}
+
+	// --------------------------------------------------------------------------------------
+
+	@Test
+	public void reverseNumbers() {
+
+		int num = 1234, count = 0;
+		String newNum = Integer.toString(num); // Converting from int to String for using CharAt String function
+		System.out.println(newNum);
+
+		while (num != 0) {
+
+			num = num / 10;
+			// System.out.println(num);
+			count++;
+		}
+		System.out.println("Count value is --->" + count);
+		String newVal = "";
+
+		for (int i = count - 1; i >= 0; i--) {
+			int len = newNum.length();
+			newVal = newVal + newNum.charAt(i);
+		}
+		System.out.println("newVal value is --->" + newVal);
+		int newValue = Integer.parseInt(newVal); // Converting from String to Integer
+		System.out.println("newValue value is --->" + newValue);
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void swap2Numbers() {
+
+		int x = 10, y = 20;
+
+		System.out.println("value of x before swap-->" + x + "value of y before swap-->" + y);
+
+		x = x + y;
+		y = x - y;
+		x = x - y;
+
+		System.out.println("value of x after swap-->" + x + "value of y after swap-->" + y);
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void swap2Strings() {
+
+		String s1 = "MUTHU", s2 = "RAJESH";
+
+		s1 = s1 + s2;
+
+		s2 = s1.substring(0, s1.length() - s2.length());
+		s1 = s1.substring(s2.length());
+
+		System.out.println("value of s1 --->" + s1);
+		System.out.println("value of s2 --->" + s2);
+
+	}
+
+	// --------------------------------------------------------------------------------------
+	// @Test
+	public void findPolindrome() {
+
+		String givenVal = "MADAM";
+		String Newreversedval = "";
+		int Len = givenVal.length();
+
+		for (int i = Len - 1; i >= 0; i--) {
+
+			Newreversedval = Newreversedval + givenVal.charAt(i);
+		}
+
+		if (Newreversedval.equalsIgnoreCase(givenVal)) {
+			System.out.println("Given value is Polindrome");
+		} else {
+			System.out.println("Given value is Non-Polindrome");
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void findPolindromeinGivenArray() {
+
+		String[] val = { "MUTHU", "RAJESH", "MADAM" };
+
+		int arrLen = val.length;
+
+		for (int i = 0; i <= arrLen - 1; i++) {
+			String Newval = "";
+			for (int j = val[i].length() - 1; j >= 0; j--) {
+
+				Newval = Newval + val[i].charAt(j);
+			}
+			System.out.println("Newval in given array is-->" + Newval);
+			System.out.println("val[i] in given array is-->" + val[i]);
+			if (Newval.equalsIgnoreCase(val[i])) {
+				System.out.println("Given value in array is Polindrome");
+			} else {
+				System.out.println("Given value in array is Non-Polindrome");
+			}
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void findAscii() {
+
+		String text = "SATHI^$^^&&SHKUMAR-muthu";
+		String Newval = "";
+		String Special = "";
+		int textCount = text.length();
+
+		for (int i = 0; i <= textCount - 1; i++) {
+
+			char val = text.charAt(i);
+			// System.out.println(val);
+			int ascVal = val; // Converting from character to ASCII values
+			// System.out.println(ascVal);
+
+			if ((ascVal >= 65 && ascVal <= 90) || (ascVal >= 97 && ascVal <= 122)) {
+				Newval = Newval + val;
+			} else {
+				Special = Special + val;
+			}
+		}
+		System.out.println("Newval from given string with special character--->" + Newval);
+		System.out.println("Special from given string with special character--->" + Special);
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void removeDuplicatesinString() {
+
+		String text = "MUTHU";
+		for (int i = 0; i <= text.length() - 1; i++) {
+			int count = 0;
+			char val = text.charAt(i);
+			for (int j = 0; j <= text.length() - 1; j++) {
+				if (val == text.charAt(j)) {
+					count = count + 1;
+				}
+			}
+			System.out.println("value of val---->" + val + "and its repeated -->" + count);
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test(priority = 2)
+	public void removeDuplicatesinGivenArray() {
+
+		ArrayList<String> text = new ArrayList<String>();
+
+		text.add("KAMAL");
+		text.add("KAMAL");
+		text.add("KAMAL");
+		for (int i = 0; i <= text.size() - 1; i++) {
+			System.out.println("value of ------------>" + text.get(i));
+		}
+		HashSet<String> data = new HashSet<String>(text);
+		System.out.println("Removed duplicates in given array----->" + data);
+		System.out.println("Array size after removing duplicates -->" + data.size());
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test(priority = 1)
+	public void FindFibonacii() {
+
+		int n = 5, a = 0, b = 0, c = 1;
+
+		for (int i = 1; i <= n; i++) {
+			a = b;
+			b = c;
+			c = a + b;
+			System.out.print(a + " ");
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void FindTrainglepattern() {
+		int rows = 5, k = 0;
+		for (int i = 1; i <= rows; i++, k = 0) {
+			for (int space = 1; space <= rows - i; space++) {
+				System.out.print(" ");
+			}
+			while (k != i - 1) {
+				System.out.print(" " + k);
+				k++;
+			}
+			System.out.println();
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	public Object[][] useExcelReadWrite() throws IOException {
+
+		FileInputStream fis = new FileInputStream("F://Ref//sample.xls");
+		HSSFWorkbook wBook = new HSSFWorkbook(fis);
+		HSSFSheet sheet = wBook.getSheetAt(0);
+		int rowCount1 = sheet.getLastRowNum();
+		System.out.println("Rowcount in excel sheet===>" + rowCount1);
+		int rowCount = sheet.getPhysicalNumberOfRows();
+		System.out.println("Rowcount in excel sheet===>" + rowCount);
+		HSSFRow headerRow = sheet.getRow(0);
+		int columnCount = headerRow.getLastCellNum();
+		System.out.println("columnCount in excel sheet===>" + columnCount);
+
+		Object[][] data = new Object[rowCount][columnCount];
+		for (int i = 0; i < rowCount; i++) {
+			System.out.println("i value in Loop===>" + i);
+			HSSFRow firstRow = sheet.getRow(i);
+			for (int j = 0; j < columnCount; j++) {
+				System.out.println("j value in Loop===>" + j);
+				HSSFCell cell = firstRow.getCell(j);
+				String stringCellValue = cell.getStringCellValue();
+				data[i][j] = stringCellValue;
+				System.out.println("stringCellValue===>" + stringCellValue);
+				// System.out.println("value present in first row==>"+data[0][0]);
+			}
+		}
+		return data;
+	}
+	// Below program to fetch data from excel sheet
+	/*
+	 * public void new1() { ProgramImplements read = new ProgramImplements();
+	 * //read.readExcel(); Object[][] data=read.useExcelReadWrite();
+	 * System.out.println(data[3][0]); }
+	 */
+
+	// --------------------------------------------------------------------------------------
+	public void DatabaseSyntax() throws SQLException {
+
+		String localhost = null;
+		Connection con = DriverManager.getConnection("jdbc:mysql://" + localhost + ":" + 3306 + "/demo", "username",
+				"password");
+		Statement s = con.createStatement();
+		ResultSet rs = s.executeQuery("select * from atm where atmid='4251'");
+
+		while (rs.next()) {
+			String firstcolumnvalue = rs.getString(0);
+			System.out.println(firstcolumnvalue);
+		}
+		con.close();
+		s.close();
+		rs.close();
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void ZPrintPattern() {
+
+		for (int i = 1; i <= 10; i++) {
+			for (int j = 1; j <= i; j++) {
+				System.out.print(j + " ");
+			}
+			System.out.println();
+		}
+
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void useReplace() {
+
+		String text = "FSS";
+
+		String replacedtext = text.replace("F", "FINANCE");
+		System.out.println("Value of replaced text--->" + replacedtext);
+
+		String new1 = replacedtext.replaceFirst("FINANCE", "F");
+		System.out.println("value after replaceFirst is--->" + new1);
+
+		String new2 = new1.replaceAll("FSS", "EXIT");
+		System.out.println("value after replaceFirst new2 is--->" + new2);
+
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void useSubstring() {
+
+		String text = "MUTHU";
+
+		String val = text.substring(2);
+		String val1 = text.substring(0, 5);
+		System.out.println("The value is --->" + val);
+		System.out.println("The value is --->" + val1);
+
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void useCharAt() {
+
+		String text = "CINEMA";
+		for (int i = 0; i <= text.length() - 1; i++) {
+			char val = text.charAt(i);
+			System.out.println("Character value in given string is--->" + val);
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void useHashmap() {
+
+		HashMap<Integer, String> data = new HashMap<Integer, String>();
+
+		data.put(0, "Sathish");
+		data.put(1, "Sathish");
+
+		System.out.println("value is from HashMap--->" + data.get(1));
+
+		Set sn = data.entrySet();
+		Iterator it = sn.iterator();
+
+		while (it.hasNext()) {
+			Map.Entry val = (Map.Entry) it.next();
+			System.out.println(val.getKey());
+			System.out.println(val.getValue());
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void useArrayList() {
+
+		ArrayList<String> data = new ArrayList<String>();
+
+		data.add("SATHISH");
+		data.add("MUTHU");
+		data.add("FSS");
+		data.add("MADAM");
+		data.add(0, "MUTHUKUMAR");
+		boolean text = data.isEmpty();
+		System.out.println(text);
+
+		for (int i = 0; i <= data.size() - 1; i++) {
+			String newval = "";
+			for (int j = data.get(i).length() - 1; j >= 0; j--) {
+				newval = newval + data.get(i).charAt(j);
+			}
+			System.out.println("newval--->" + newval);
+
+			if (newval.equalsIgnoreCase(data.get(i))) {
+				System.out.println("This is Polindrome");
+			} else {
+				System.out.println("This is Non-polindrome");
+			}
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void useHashSet() {
+
+		HashSet<String> val = new HashSet<String>();
+
+		val.add("MUTHU");
+		val.add("MUTHU");
+		val.add("MUTHUKUMAR");
+		Iterator<String> it = val.iterator();
+		while (it.hasNext()) {
+			System.out.println("value from HashSet --->" + it.next());
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void useSplit() {
+
+		String text = "MUTHU";
+		for (int i = 0; i <= text.length() - 1; i++) {
+
+			String[] newval = text.split("");
+			System.out.println("new value is ====>" + newval[i]);
+		}
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void removeSpecialCharacter() {
+
+		String text = "M*U*T*H*U*******";
+		String newtext = text.replace("*", "");
+		System.out.println(newtext);
+		// --------------------------------------------------------------------------------------
+		String text1 = "C*O*M*P*A*N*Y";
+		String Newval = "";
+
+		for (int i = 0; i <= text1.length() - 1; i++) {
+
+			String[] Stringval = text1.split("");
+
+			if (Stringval[i].equalsIgnoreCase("*")) {
+				System.out.println("The value of Stringval[i] string given is---->" + Stringval[i]);
+			} else {
+				Newval = Newval + Stringval[i];
+			}
+		}
+		System.out.println("The value of Newval string given is---->" + Newval);
+		// --------------------------------------------------------------------------------------
+		String text2 = "S*A*T*H*I*S*H";
+		String Newval1 = "";
+		for (int i = 0; i <= text2.length() - 1; i++) {
+
+			char val = text2.charAt(i);
+			int ascVal = val;
+
+			if ((ascVal >= 65 && ascVal <= 90) || (ascVal >= 97 && ascVal <= 122)) {
+
+				Newval1 = Newval1 + val;
+			}
+		}
+		System.out.println("Newvalue1 using ASCII script is --------->" + Newval1);
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void findMaxnumberGivenMatrix() {
+
+		int[][] matrix = { { 22, 4, 5 }, { 5, 300, 4, 5 }, { 3, 5, 6, 45 } };
+		int min = matrix[0][0];
+		System.out.println(min);
+		int matrixlen = matrix.length;
+
+		System.out.println("Matrix length is ==>" + matrixlen);
+
+		for (int i = 0; i < matrixlen; i++) {
+
+			for (int j = 0; j < matrix[i].length; j++) {
+
+				if (matrix[i][j] >= min) {
+					min = matrix[i][j];
+				}
+			}
+		}
+		// System.out.println("Minimum value is ==>"+min);
+		System.out.println("Maximum value is ==>" + min);
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void findMinimumnumberGivenMatrix() {
+		int[][] matrix = { { 22, 4, 5 }, { 5, 300, 4, 5 }, { 3, 5, 6, 45 } };
+		int min = matrix[0][0];
+		System.out.println(min);
+		int matrixlen = matrix.length;
+
+		System.out.println("Matrix length is ==>" + matrixlen);
+
+		for (int i = 0; i < matrixlen; i++) {
+
+			for (int j = 0; j < matrix[i].length; j++) {
+
+				if (matrix[i][j] < min) {
+					min = matrix[i][j];
+				}
+			}
+		}
+		System.out.println("Minimum value is ==>" + min);
+		// System.out.println("Maximum value is ==>" + min);
+	}
+
+	// --------------------------------------------------------------------------------------
+	@Test
+	public void reversegivensentenceWordByWord() {
+		String str = "java concept of the day";
+		String[] words = str.split(" ");
+		int count = words.length;
+		System.out.println(count);
+
+		String reverseString = "";
+		// Output for reversing the word given in sentence with reversing word from
+		// letter by letter
+		for (int i = 0; i < words.length; i++) {
+			String word = words[i];
+			String reverseWord = "";
+			for (int j = word.length() - 1; j >= 0; j--) {
+				reverseWord = reverseWord + word.charAt(j);
+			}
+			reverseString = reverseString + reverseWord + " ";
+		}
+		System.out.println(reverseString);
+
+		// Output for just reversing the word given in sentence and not reversing word
+		// from letter by letter
+		String outputString = "";
+		for (int k = words.length - 1; k >= 0; k--) {
+			outputString = outputString + words[k] + " ";
+		}
+		System.out.println("Reversed the given sentence word by word--->" + outputString);
+	}
+}
