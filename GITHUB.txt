@@ -1,0 +1,42 @@
+
+Step1: Open GIT Base command prompt and go to project directory for initializing git
+Step2: Command - cd <projectpath location>
+Step3: Initialize the GIT in local project path directory
+Step4: git init
+Step5: git add <filename.txt>
+Step6: git commit -m "This is my first commit"
+Step7: git remote add origin https://github.com/Muthukumar235/FirstRepo.git --> GITHUB repo path
+Step8: git push -u origin master --> For pushing code from local to master GITHUB repository
+
+Step9: Create git branch: git checkout -b <BRANCHNAME IN GITHUB REPO>
+Step10: git add <filename.txt>
+Step11: git commit -m "This is commit to branch GITHUB repo"
+Step12: git push -u origin <BRANCHNAME IN GITHUB REPO>
+
+Step 1: From your project repository, bring in the changes and test.
+
+git fetch origin
+git checkout -b Branch origin/Branch
+git merge master
+Step 2: Merge the changes and update on GitHub.
+
+git checkout master
+git merge --no-ff Branch
+git push origin master
+
+git config --global user.name "Muthukumar235"
+git config --global user.password "Deepesh1234!"
+git config
+
+
+
+Step 1: From your project repository, bring in the changes and test.
+
+git fetch origin
+git checkout -b branchcreated origin/branchcreated
+git merge master
+Step 2: Merge the changes and update on GitHub.
+
+git checkout master
+git merge --no-ff branchcreated
+git push origin master
